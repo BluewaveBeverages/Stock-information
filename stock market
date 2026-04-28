@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSX Stock Analyzer - Smart Investing Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b69 100%); 
+            color: #fff; 
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1 { 
+            text-align: center; font-size: 2.5rem; font-weight: 700; 
+            background: linear-gradient(45deg, #00ff88, #00bfff); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            margin-bottom: 20px; animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow { 0% { text-shadow: 0 0 20px #00ff88; } 100% { text-shadow: 0 0 40px #00bfff; } }
+        
+        /* Circle Animations */
+        .profit-circle { 
+            width: 120px; height: 120px; border-radius: 50%; 
+            background: conic-gradient(#00ff88 0% 75%, #ff4444 75% 100%); 
+            animation: spin 2s linear infinite, pulse 1.5s ease-in-out infinite alternate; 
+            margin: 20px auto; position: relative;
+        }
+        .profit-circle::after { 
+            content: 'Profit ↑'; position: absolute; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); font-weight: 600; font-size: 1rem;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.7); } 70% { box-shadow: 0 0 0 20px rgba(0,255,136,0); } 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); } }
+
+        .section { 
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); 
+            border-radius: 20px; padding: 30px; margin: 30px 0; 
+            border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease;
+        }
+        .section:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,255,136,0.3); }
+        .glow-hover { transition: all 0.3s; }
+        .glow-hover:hover { filter: drop-shadow(0 0 10px #00ff88); }
+
+        h2 { font-size: 1.8rem; margin-bottom: 20px; color: #00ff88; }
+        h3 { font-size: 1.4rem; margin: 20px 0 10px; color: #00bfff; }
+        ul { list-style: none; padding-left: 0; }
+        li { padding: 10px; margin: 10px 0; background: rgba(255,255,255,0.1); border-radius: 10px; transition: all 0.3s; }
+        li:hover { background: rgba(0,255,136,0.2); transform: scale(1.02); }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background: rgba(0,255,136,0.2); color: #00ff88; }
+
+        /* Charts */
+        .chart-container { position: relative; height: 300px; margin: 20px 0; }
+        canvas { border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        /* Responsive */
+        @media (max-width: 768px) { h1 { font-size: 2rem; } .container { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 PSX Stock Analyzer & Checklist</h1>
+        
+        <div class="section glow-hover">
+            <h2>Good question—this is exactly the mindset you need before investing 👍</h2>
+            <p>Most beginners just “sun kar buy” karte hain, aur loss hota hai. Tum smart ho ke pehle samajhna chahte ho.</p>
+            <div class="profit-circle"></div>
+        </div>
+
+        <div class="section">
+            <h2>🏦 UBL Analysis</h2>
+            <ul>
+                <li>✅ Profit growing 📈</li>
+                <li>✅ Higher EPS</li>
+                <li>✅ Low P/E (undervalued)</li>
+                <li>✅ Regular dividend 💸</li>
+                <li>✅ Low NPLs, Deposits ↑</li>
+            </ul>
+            <div class="chart-container">
+                <canvas id="ublChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏭 Engro Analysis</h2>
+            <ul>
+                <li>✅ Stable profit</li>
+                <li>✅ Fertilizer demand 🌾</li>
+                <li>✅ Gas price stable ⛽</li>
+                <li>✅ Strong dividend</li>
+                <li>✅ Govt support</li>
+            </ul>
+            <div class="chart-container">
+                <canvas id="engroChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Sazgar Case Study</h2>
+            <p>Rikshaw se Haval cars 🚗 → Price 20 Rs to 2000 Rs! Future decisions = massive growth.</p>
+            <div class="profit-circle" style="background: conic-gradient(#ffaa00 0% 90%, #ff4444 90% 100%);"></div>
+        </div>
+
+        <div class="section">
+            <h2>🧾 Stock Checklist (10/10 System)</h2>
+            <table>
+                <thead><tr><th>Point</th><th>Check</th></tr></thead>
+                <tbody>
+                    <tr><td>1. Profit Growth</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>2. EPS Strong</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>3. Dividend</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>4. Low Debt</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>5. Market Leader</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>6. Future Growth 🔥</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>7. Reasonable Price</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>8. Strong Sector</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>9. Positive News</td><td>✔️ Yes = 1</td></tr>
+                    <tr><td>10. Uptrend Chart</td><td>✔️ Yes = 1</td></tr>
+                </tbody>
+            </table>
+            <h3>Score: 8-10 = 🔥 Strong Buy</h3>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Best PSX Shortlist</h2>
+            <ul>
+                <li>🏦 UBL, Meezan, MCB (Stable + Dividend)</li>
+                <li>🏭 Engro, Fauji (Agriculture)</li>
+                <li>⚡ HUBCO (Power)</li>
+                <li>🛢️ OGDC, PPL (Oil)</li>
+                <li>🚗 Sazgar (Growth)</li>
+            </ul>
+            <div class="profit-circle"></div>
+        </div>
+    </div>
+
+    <script>
+        // UBL Chart
+        new Chart(document.getElementById('ublChart'), {
+            type: 'line',
+            data: {
+                labels: ['2023', '2024', '2025', '2026'],
+                datasets: [{ label: 'UBL Profit', data: [100, 120, 150, 180], borderColor: '#00ff88', backgroundColor: 'rgba(0,255,136,0.1)', tension: 0.4 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+
+        // Engro Chart
+        new Chart(document.getElementById('engroChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Fertilizer', 'Energy', 'Petro', 'Food'],
+                datasets: [{ label: 'Engro Revenue', data: [40, 25, 20, 15], backgroundColor: ['#00ff88', '#00bfff', '#ffaa00', '#ff6666'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+</body>
+</html>
